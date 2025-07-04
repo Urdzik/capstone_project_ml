@@ -30,13 +30,16 @@ This capstone project investigates the effectiveness of various machine learning
 ## Methodology
 
 ### 1. Data Collection and Preprocessing
+
 - Historical stock data acquisition via yfinance
 - Feature engineering with 137 technical indicators
 - Data cleaning and outlier handling
 - Train/test split (80/20)
 
 ### 2. Model Development
+
 **Machine Learning Models:**
+
 - Logistic Regression (baseline)
 - Random Forest
 - Gradient Boosting
@@ -45,23 +48,27 @@ This capstone project investigates the effectiveness of various machine learning
 - Ensemble methods
 
 **Foundation Model:**
+
 - Sundial time series foundation model
 - Zero-shot prediction capabilities
 - Trend and momentum analysis
 
 **Technical Strategies:**
+
 - Simple Moving Average crossover
 - RSI-based signals
 - Mean reversion
 - Bollinger Bands breakout
 
 ### 3. Evaluation Metrics
+
 - **Classification Accuracy**: Directional prediction accuracy
 - **Financial Metrics**: Total return, Sharpe ratio, maximum drawdown
 - **Risk Metrics**: Volatility, Value at Risk (VaR)
 - **Trading Metrics**: Number of trades, transaction costs
 
 ### 4. Backtesting Framework
+
 - 5-year historical backtesting
 - Transaction costs inclusion (0.1% commission)
 - Realistic trading constraints
@@ -95,37 +102,44 @@ stock-trading-capstone/
 
 ### Model Performance Summary
 
-| Approach | Accuracy | Total Return | Sharpe Ratio | Max Drawdown |
-|----------|----------|--------------|--------------|--------------|
-| **Buy & Hold** | N/A | **76.8%** | **1.45** | **22.1%** |
-| AutoML | 58.0% | 15.2% | 0.89 | 28.4% |
-| Linear Regression | 52.0% | 17.4% | 1.17 | 24.6% |
-| Random Forest | 54.5% | 12.8% | 0.76 | 31.2% |
-| LSTM | 51.8% | 8.9% | 0.65 | 35.1% |
-| SMA Strategy | N/A | 11.3% | 0.85 | 26.8% |
-| RSI Strategy | N/A | 9.7% | 0.71 | 29.3% |
-| Sundial Foundation | N/A | ~35% | ~1.20 | ~25% |
+| Approach           | Accuracy | Total Return | Sharpe Ratio | Max Drawdown |
+|--------------------|----------|--------------|--------------|--------------|
+| **Buy & Hold**     | N/A      | **76.8%**    | **1.45**     | **22.1%**    |
+| AutoML             | 58.0%    | 15.2%        | 0.89         | 28.4%        |
+| Linear Regression  | 52.0%    | 17.4%        | 1.17         | 24.6%        |
+| Random Forest      | 54.5%    | 12.8%        | 0.76         | 31.2%        |
+| LSTM               | 51.8%    | 8.9%         | 0.65         | 35.1%        |
+| SMA Strategy       | N/A      | 11.3%        | 0.85         | 26.8%        |
+| RSI Strategy       | N/A      | 9.7%         | 0.71         | 29.3%        |
+| Sundial Foundation | N/A      | ~35%         | ~1.20        | ~25%         |
 
 ### Key Findings
 
-1. **Buy-and-Hold Dominance**: The simple buy-and-hold strategy achieved the highest total return (76.8%) with the best risk-adjusted performance (Sharpe ratio: 1.45).
+1. **Buy-and-Hold Dominance**: The simple buy-and-hold strategy achieved the highest total return (76.8%) with the best
+   risk-adjusted performance (Sharpe ratio: 1.45).
 
-2. **ML Model Limitations**: Despite achieving above-random accuracy (52-58%), machine learning models failed to translate prediction accuracy into superior investment returns.
+2. **ML Model Limitations**: Despite achieving above-random accuracy (52-58%), machine learning models failed to
+   translate prediction accuracy into superior investment returns.
 
-3. **Foundation Model Performance**: Sundial showed excellent short-term prediction accuracy (MAPE: 6.4%, direction accuracy: 100%) but couldn't sustain long-term outperformance.
+3. **Foundation Model Performance**: Sundial showed excellent short-term prediction accuracy (MAPE: 6.4%, direction
+   accuracy: 100%) but couldn't sustain long-term outperformance.
 
-4. **Transaction Cost Impact**: Active trading strategies suffered from cumulative transaction costs that eroded potential gains.
+4. **Transaction Cost Impact**: Active trading strategies suffered from cumulative transaction costs that eroded
+   potential gains.
 
-5. **Market Trend Effect**: In a strong uptrending market (AAPL 2019-2024), passive strategies benefited from consistent market appreciation.
+5. **Market Trend Effect**: In a strong uptrending market (AAPL 2019-2024), passive strategies benefited from consistent
+   market appreciation.
 
 ## Technical Implementation
 
 ### Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Running the Analysis
+
 ```bash
 # Start Jupyter Notebook
 jupyter notebook
@@ -138,6 +152,7 @@ streamlit run src/model_comparison_streamlit.py
 ```
 
 ### Key Notebooks
+
 - `05_model_comparison.ipynb`: Complete strategy comparison
 - `07_sundial_foundation_model.ipynb`: Foundation model analysis
 - `01_data_eda.ipynb`: Data exploration and visualization
@@ -145,16 +160,19 @@ streamlit run src/model_comparison_streamlit.py
 ## Conclusions and Implications
 
 ### For Investors
+
 - **Long-term Strategy**: Buy-and-hold remains the most effective approach for long-term wealth building
 - **Risk Management**: Passive strategies provide better risk-adjusted returns with lower complexity
 - **Cost Efficiency**: Minimal transaction costs significantly impact long-term performance
 
 ### For Practitioners
+
 - **Model Accuracy vs Returns**: High prediction accuracy doesn't guarantee investment success
 - **Implementation Challenges**: Real-world constraints (costs, slippage, timing) affect strategy performance
 - **Foundation Models**: Promising technology but requires further development for practical application
 
 ### For Researchers
+
 - **Benchmarking**: Simple strategies should always be included as baselines
 - **Evaluation Metrics**: Financial metrics are more relevant than traditional ML metrics for investment strategies
 - **Market Conditions**: Strategy performance is highly dependent on market regimes and time periods
@@ -177,4 +195,5 @@ streamlit run src/model_comparison_streamlit.py
 
 ---
 
-*This project demonstrates the importance of thorough benchmarking and the enduring effectiveness of simple investment strategies in modern financial markets.*
+*This project demonstrates the importance of thorough benchmarking and the enduring effectiveness of simple investment
+strategies in modern financial markets.*
