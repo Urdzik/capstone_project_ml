@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, VotingRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 import os
 import sys
@@ -30,7 +30,6 @@ except ImportError:
         from model_config import get_model_config
     except ImportError:
         print("Could not import feature_engineering та model_config")
-        print("Будемо використовувати базові функції")
         
         def add_technical_indicators(df):
             
@@ -86,11 +85,6 @@ class SimpleModelComparison:
         self.ticker = ticker
         self.period_years = period_years
         self.results = {}
-        
-        print(f" Тікер: {ticker}")
-        print(f" Період: {period_years} років")
-        print(f" Задача: Прогнозування напрямку руху ціни (UP/DOWN)")
-        print("=" * 60)
     
     def load_and_prepare_data(self):
         
@@ -172,16 +166,8 @@ class SimpleModelComparison:
             'interpretability': 'Висока'
         }
         
-        print(f"⏱️ Training time: {training_time:.2f} seconds")
-        print(f" Точність: {accuracy:.4f} ({accuracy:.2%})")
-        print(" Переваги: Швидка, інтерпретована, стабільна")
-        print(" Недоліки: Лінійна, може пропустити складні залежності")
     
     def test_custom_ensemble(self, X_train, X_test, y_train, y_test):
-        
-        print("\n МОДЕЛЬ 2: Наш самописний Ensemble")
-        print("-" * 40)
-        
         start_time = time.time()
         
         scaler = StandardScaler()
@@ -224,16 +210,9 @@ class SimpleModelComparison:
             'complexity': 'Висока',
             'interpretability': 'Середня'
         }
-        
-        print(f"⏱️ Training time: {training_time:.2f} seconds")
-        print(f" Точність: {accuracy:.4f} ({accuracy:.2%})")
-        print(" Переваги: Висока точність, стійкий до перенавчання")
-        print(" Недоліки: Довше training, складніший")
+
     
     def test_pretrained_model(self, X_train, X_test, y_train, y_test):
-        
-        print("\n МОДЕЛЬ 3: 'Готова' pre-trained model")
-        print("-" * 40)
         
         start_time = time.time()
         
@@ -265,16 +244,10 @@ class SimpleModelComparison:
             'interpretability': 'Низька'
         }
         
-        print(f"⏱️ Training time: {training_time:.2f} seconds")
-        print(f" Точність: {accuracy:.4f} ({accuracy:.2%})")
-        print(" Переваги: Швидке впровадження, не потребує експертизи")
-        print(" Недоліки: Може не підходити для специфічних задач")
+
     
     def print_final_comparison(self):
         
-        print("\n" + "=" * 80)
-        print(" ФІНАЛЬНЕ ПОРІВНЯННЯ МОДЕЛЕЙ")
-        print("=" * 80)
         
         sorted_results = sorted(
             self.results.items(), 
@@ -283,7 +256,6 @@ class SimpleModelComparison:
         )
         
         print("\n Рейтинг за точністю:")
-        print("-" * 80)
         
         for i, (key, result) in enumerate(sorted_results, 1):
             print(f"{i}. {result['model']:25} | "
@@ -291,19 +263,18 @@ class SimpleModelComparison:
                   f"Час: {result['training_time']:5.1f}с | "
                   f"Тип: {result['type']}")
         
-        print("-" * 80)
         
         best_model = sorted_results[0][1]
         print(f"\n ПЕРЕМОЖЕЦЬ: {best_model['model']}")
         print(f"    Точність: {best_model['accuracy']:.2%}")
-        print(f"   ⏱️  Training time: {best_model['training_time']:.1f}с")
+        print(f"   Training time: {best_model['training_time']:.1f}с")
         print(f"    Складність: {best_model['complexity']}")
         print(f"    Інтерпретованість: {best_model['interpretability']}")
         
         print(f"\n ЗАГАЛЬНА СТАТИСТИКА:")
         print(f"    Протестовано моделей: {len(self.results)}")
         print(f"    Середня точність: {np.mean([r['accuracy'] for r in self.results.values()]):.2%}")
-        print(f"   ⏱️  Total time: {sum([r['training_time'] for r in self.results.values()]):.1f}с")
+        print(f"   Total time: {sum([r['training_time'] for r in self.results.values()]):.1f}с")
         
         return pd.DataFrame(self.results).T
     
@@ -317,10 +288,6 @@ class SimpleModelComparison:
             X, y, test_size=0.2, random_state=42, stratify=y
         )
         
-        print(f"\n Розподіл data:")
-        print(f"   Тренування: {len(X_train)} зразків")
-        print(f"   Testing: {len(X_test)} зразків")
-        print(f"   UP/DOWN розподіл: {y.value_counts().to_dict()}")
         
         self.test_logistic_regression(X_train, X_test, y_train, y_test)
         self.test_custom_ensemble(X_train, X_test, y_train, y_test)
@@ -343,8 +310,6 @@ def main():
     results_file = f'simple_comparison_{ticker}_{timestamp}.csv'
     results.to_csv(results_file)
     
-    print(f"\n Результати збережено в: {results_file}")
-    print(" Порівняння завершено!")
 
 if __name__ == "__main__":
     main() 

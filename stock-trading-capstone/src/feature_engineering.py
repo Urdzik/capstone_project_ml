@@ -379,6 +379,5 @@ class FeatureEngineer:
 feature_engineer = FeatureEngineer()
 
 def add_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    
     return feature_engineer.add_all_features(df, include_fourier=False)
 

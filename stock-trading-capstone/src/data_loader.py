@@ -1,10 +1,7 @@
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from typing import Optional, List, Dict, Union
-from datetime import datetime, timedelta
-import requests
-import time
+from typing import Optional
 from pathlib import Path
 
 class DataLoader:

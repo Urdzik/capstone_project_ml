@@ -337,14 +337,21 @@ class LSTMModelWrapper(BaseModel):
         
         data = df[target_col].values.reshape(-1, 1)
         
-        self.data_scaler = MinMaxScaler()
-        data_scaled = self.data_scaler.fit_transform(data)
+        self.data_stats = {
+            'mean': np.mean(data),
+            'std': np.std(data)
+        }
+        
+        print(f" Статистики data: mean=${self.data_stats['mean']:.2f}, std=${self.data_stats['std']:.2f}")
+        
+        data_normalized = (data - self.data_stats['mean']) / self.data_stats['std']
         
         X, y = [], []
-        for i in range(self.sequence_length, len(data_scaled)):
-            X.append(data_scaled[i-self.sequence_length:i, 0])
-            y.append(data_scaled[i, 0])
+        for i in range(self.sequence_length, len(data_normalized)):
+            X.append(data_normalized[i-self.sequence_length:i, 0])
+            y.append(data_normalized[i, 0])
         
+
         return np.array(X), np.array(y)
     
     def train(self, X_train, y_train, epochs: int = None, batch_size: int = None) -> Dict:
@@ -601,7 +608,7 @@ LSTMModel = LSTMModelWrapper
 
 class StrictLinearRegression(LinearRegressionModel):
     
-    def __init__(self, regularization: str = 'ridge', alpha: float = 50):
+    def __init__(self, regularization: str = 'ridge', alpha: float = 100):
         super().__init__(regularization=regularization, alpha=alpha)
         self.model_name = "StrictLinearRegression"
         
@@ -706,6 +713,8 @@ class LSTMModelWrapper(BaseModel):
             X.append(data_normalized[i-self.sequence_length:i, 0])
             y.append(data_normalized[i, 0])
         
+        print(f"Normalized data range: min={np.min(data_normalized):.3f}, max={np.max(data_normalized):.3f}")
+        
         return np.array(X), np.array(y)
     
     def train(self, X_train, y_train, epochs: int = None, batch_size: int = None) -> Dict:
@@ -721,9 +730,6 @@ class LSTMModelWrapper(BaseModel):
             df_combined = X_train.copy()
             df_combined['Close'] = y_train
             X_seq, y_seq = self.prepare_data(df_combined)
-        
-        print(f" LSTM training on sequences")
-        print(f"   Нормалізовані дані: X={X_seq.shape}, y range={y_seq.min():.2f} to {y_seq.max():.2f}")
         
         val_size = max(1, int(0.2 * len(X_seq)))
         X_train_seq = X_seq[:-val_size]
@@ -851,11 +857,7 @@ class LSTMModelWrapper(BaseModel):
         min_len = min(len(y_true), len(y_pred))
         y_true = y_true[:min_len]
         y_pred = y_pred[:min_len]
-        
-        print(f" Improved LSTM Evaluation:")
-        print(f"   y_true діапазон: ${y_true.min():.2f} - ${y_true.max():.2f}")
-        print(f"   y_pred діапазон: ${y_pred.min():.2f} - ${y_pred.max():.2f}")
-        
+
         from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
         
         mse = mean_squared_error(y_true, y_pred)
