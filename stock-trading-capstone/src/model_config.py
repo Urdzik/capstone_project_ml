@@ -1,8 +1,5 @@
-"""
-Конфігурації для різних моделей машинного навчання
-"""
 
-# Конфігурації для традиційних ML моделей
+
 LINEAR_REGRESSION_CONFIG = {
     'fit_intercept': True,
     'normalize': False,
@@ -60,7 +57,6 @@ SVM_CONFIG = {
     'epsilon': 0.1
 }
 
-# Конфігурації для нейронних мереж
 LSTM_CONFIG = {
     'sequence_length': 60,
     'input_size': 1,
@@ -100,7 +96,6 @@ TRANSFORMER_CONFIG = {
     'patience': 15
 }
 
-# Конфігурації для ансамблевих методів
 VOTING_CLASSIFIER_CONFIG = {
     'voting': 'soft',
     'n_jobs': -1
@@ -112,7 +107,6 @@ STACKING_CONFIG = {
     'passthrough': False
 }
 
-# Конфігурації для гіперпараметрів оптимізації
 HYPERPARAMETER_SEARCH_CONFIG = {
     'random_forest': {
         'n_estimators': [50, 100, 200],
@@ -137,11 +131,10 @@ HYPERPARAMETER_SEARCH_CONFIG = {
     }
 }
 
-# Конфігурації для обробки даних
 DATA_PREPROCESSING_CONFIG = {
-    'fill_method': 'forward',  # 'forward', 'backward', 'interpolate', 'drop'
-    'scaling_method': 'standard',  # 'standard', 'minmax', 'robust', 'none'
-    'outlier_method': 'iqr',  # 'iqr', 'zscore', 'isolation_forest', 'none'
+    'fill_method': 'forward',
+    'scaling_method': 'standard',
+    'outlier_method': 'iqr',
     'outlier_threshold': 3,
     'feature_selection': {
         'method': 'mutual_info',
@@ -149,46 +142,39 @@ DATA_PREPROCESSING_CONFIG = {
     }
 }
 
-# Конфігурації для розбиття даних
 TRAIN_TEST_SPLIT_CONFIG = {
     'test_size': 0.2,
     'validation_size': 0.1,
     'time_series_split': True,
-    'shuffle': False  # Для часових рядів завжди False
+    'shuffle': False
 }
 
-# Конфігурації для cross-validation
 CROSS_VALIDATION_CONFIG = {
     'cv_folds': 5,
     'time_series_cv': True,
-    'gap': 0,  # Розрив між train та test у TimeSeriesSplit
-    'test_size': None  # Розмір тестового набору у TimeSeriesSplit
+    'gap': 0,
+    'test_size': None
 }
 
-# Конфігурації для метрик оцінки
 EVALUATION_METRICS_CONFIG = {
     'regression': ['mse', 'mae', 'rmse', 'r2', 'mape'],
     'classification': ['accuracy', 'precision', 'recall', 'f1', 'auc'],
     'trading_specific': ['sharpe_ratio', 'max_drawdown', 'total_return', 'win_rate']
 }
 
-# Конфігурації для торгових стратегій
 TRADING_STRATEGY_CONFIG = {
     'initial_capital': 100000,
-    'commission': 0.001,  # 0.1%
-    'slippage': 0.001,    # 0.1%
-    'position_sizing': 'fixed_fractional',  # 'fixed', 'fixed_fractional', 'kelly'
-    'risk_per_trade': 0.02,  # 2%
+    'commission': 0.001,
+    'slippage': 0.001,
+    'position_sizing': 'fixed_fractional',
+    'risk_per_trade': 0.02,
     'max_positions': 1,
-    'stop_loss': 0.05,    # 5%
-    'take_profit': 0.10   # 10%
+    'stop_loss': 0.05,
+    'take_profit': 0.10
 }
 
-# Функція для отримання конфігурації моделі
 def get_model_config(model_name):
-    """
-    Повертає конфігурацію для вказаної моделі
-    """
+    
     configs = {
         'linear_regression': LINEAR_REGRESSION_CONFIG,
         'random_forest': RANDOM_FOREST_CONFIG,
@@ -205,11 +191,8 @@ def get_model_config(model_name):
     
     return configs.get(model_name, {})
 
-# Функція для оновлення конфігурації
 def update_config(base_config, custom_config):
-    """
-    Оновлює базову конфігурацію кастомними параметрами
-    """
+    
     updated_config = base_config.copy()
     updated_config.update(custom_config)
     return updated_config 
